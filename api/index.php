@@ -4,11 +4,9 @@ include 'db.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 $input = json_decode(file_get_contents('php://input'), true);
-
 // Extract ID from URL (e.g., /users/1)
 $request = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
-$id = isset($request[1]) ? intval($request[1]) : null;
-
+$id = isset($request[2]) ? intval($request[2]) : null;
 switch ($method) {
     case 'GET':
         if ($id) {

@@ -1,0 +1,16 @@
+Use Postman or curl:
+GET all users: GET http://localhost/user-api/
+GET single user: GET http://localhost/user-api/1
+
+POST create user:
+POST http://localhost/user-api/
+Body (raw JSON):
+{
+  "name": "Alice",
+  "email": "alice@example.com",
+  "password": "secret123",
+  "dob": "1990-01-01"
+}
+
+PUT update user: PUT http://localhost/user-api/1
+DELETE user: DELETE http://localhost/user-api/1

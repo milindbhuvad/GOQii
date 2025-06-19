@@ -14,5 +14,3 @@ Body (raw JSON):
 
 PUT update user: PUT http://localhost/user-api/1
 DELETE user: DELETE http://localhost/user-api/1
-
-test

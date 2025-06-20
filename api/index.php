@@ -1,5 +1,25 @@
 <?php
 header("Content-Type: application/json");
+
+$valid_user = 'admin';
+$valid_pass = 'Admin@123';
+
+if (!isset($_SERVER['PHP_AUTH_USER'])) {
+    header('WWW-Authenticate: Basic realm="My API"');
+    header('HTTP/1.0 401 Unauthorized');
+    echo json_encode(["error" => "Authentication required"]);
+    exit;
+}
+
+if (
+    $_SERVER['PHP_AUTH_USER'] !== $valid_user ||
+    $_SERVER['PHP_AUTH_PW'] !== $valid_pass
+) {
+    header('HTTP/1.0 401 Unauthorized');
+    echo json_encode(["error" => "Invalid credentials"]);
+    exit;
+}
+
 include 'db.php';
 
 $method = $_SERVER['REQUEST_METHOD'];

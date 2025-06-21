@@ -59,8 +59,30 @@ switch ($method) {
             $password = password_hash($input['password'], PASSWORD_BCRYPT);
             $dob = $input['dob'];
 
+            // Validate name (only letters and spaces, 2-50 characters)
+            if (!preg_match("/^[a-zA-Z\s]{2,50}$/", $name)) {
+                echo json_encode(["error" => "Invalid name format"]);
+                break;
+            }
+
+            // Validate email
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                echo json_encode(["error" => "Invalid email format"]);
+                break;
+            }
+
+            // Validate DOB (format: YYYY-MM-DD and logical date)
+            $dobRegex = '/^\d{4}-\d{2}-\d{2}$/';
+            if (!preg_match($dobRegex, $dob) || !strtotime($dob)) {
+                echo json_encode(["error" => "Invalid date of birth format"]);
+                break;
+            }
+
+            // Hash the password
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
             $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $name, $email, $password, $dob);
+            $stmt->bind_param("ssss", $name, $email, $hashedPassword, $dob);
             if ($stmt->execute()) {
                 echo json_encode(["message" => "User created successfully"]);
             } else {
